@@ -1,20 +1,16 @@
 import numpy as np
-from utils.signal_processing import apply_fft
+from utils.signal_simulator import apply_fft
 
-def extract_features(sample):
-    features = []
+def extract_features(signal):
 
-    for i in range(sample.shape[1]):
-        sub = sample[:, i]
+    fft_signal = apply_fft(signal)
 
-        mean = np.mean(sub)
-        var = np.var(sub)
-        peak = np.max(sub)
-        energy = np.sum(sub**2)
+    mean = np.mean(fft_signal)
+    std = np.std(fft_signal)
+    max_val = np.max(fft_signal)
+    min_val = np.min(fft_signal)
+    energy = np.sum(fft_signal**2)
 
-        fft_vals = apply_fft(sub)
-        fft_energy = np.sum(fft_vals)
-
-        features.extend([mean, var, peak, energy, fft_energy])
+    features = [mean,std,max_val,min_val,energy]
 
     return features

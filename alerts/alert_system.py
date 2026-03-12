@@ -1,8 +1,13 @@
-import os
+def generate_alert(prediction):
 
-def trigger_alert(confidence, threshold=0.8):
-    if confidence > threshold:
-        print("ALERT! Animal Crossing Detected!")
-        os.system("echo '\a'")
-        return True
-    return False
+    if prediction == 0:
+        return "No Animal Detected"
+
+    if prediction == 1:
+        return "⚠ Small Animal Detected"
+
+    if prediction == 2:
+        return "⚠ Medium Animal Crossing"
+
+    if prediction == 3:
+        return "⚠ Large Animal Crossing - Slow Down"

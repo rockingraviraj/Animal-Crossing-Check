@@ -1,7 +1,12 @@
 import numpy as np
-from sklearn.preprocessing import StandardScaler
 
-def scale_features(X):
-    scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X)
-    return X_scaled, scaler
+def normalize_signal(signal):
+
+    signal = np.array(signal)
+
+    min_val = np.min(signal)
+    max_val = np.max(signal)
+
+    normalized = (signal - min_val) / (max_val - min_val)
+
+    return normalized

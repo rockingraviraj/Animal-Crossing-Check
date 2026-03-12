@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Animal Crossing Detection</title>
+
+<link rel="stylesheet" href="/static/style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Animal Crossing Detection System</h1>
+
+<div class="status-card">
+
+<h2>Detection Status</h2>
+
+<p id="status" class="status {{color}}">
+{{icon}} {{status}}
+</p>
+
+</div>
+
+<div class="graph-card">
+
+<h2>CSI Signal Graph</h2>
+
+<img id="graph" src="{{graph}}" width="700">
+
+</div>
+
+</div>
+
+<script>
+
+function updateDetection(){
+
+fetch("/detect")
+.then(response => response.json())
+.then(data => {
+
+document.getElementById("status").innerHTML =
+data.icon + " " + data.status;
+
+document.getElementById("status").className =
+"status " + data.color;
+
+document.getElementById("graph").src =
+data.graph + "?t=" + new Date().getTime();
+
+});
+}
+
+setInterval(updateDetection,3000);
+
+</script>
+
+</body>
+
+</html>

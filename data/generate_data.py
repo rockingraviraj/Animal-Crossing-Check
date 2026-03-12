@@ -1,38 +1,61 @@
 import numpy as np
-import os
+import pandas as pd
 
-def generate_csi_sample(animal_type, time_steps=200, subcarriers=30):
-    base_signal = np.random.normal(0, 0.2, (time_steps, subcarriers))
+def simulate_signal(label):
 
-    if animal_type == "small":
-        disturbance = np.sin(np.linspace(0, 8, time_steps)) * 0.5
-    elif animal_type == "medium":
-        disturbance = np.sin(np.linspace(0, 8, time_steps)) * 1.0
-    else:
-        disturbance = np.sin(np.linspace(0, 8, time_steps)) * 2.0
+    t = np.linspace(0,10,100)
 
-    disturbance = disturbance.reshape(-1, 1)
-    signal = base_signal + disturbance
+    base_signal = np.sin(t)
 
-    noise = np.random.normal(0, 0.1, signal.shape)
-    signal += noise
+    noise = np.random.normal(0,0.1,100)
+
+    signal = base_signal + noise
+
+    # disturbance based on animal size
+    if label == 1:
+        signal += np.random.normal(0,0.2,100)
+
+    if label == 2:
+        signal += np.random.normal(0,0.4,100)
+
+    if label == 3:
+        signal += np.random.normal(0,0.6,100)
 
     return signal
 
-def create_dataset(samples_per_class=200):
-    X = []
-    y = []
 
-    for label in ["small", "medium", "large"]:
-        for _ in range(samples_per_class):
-            X.append(generate_csi_sample(label))
-            y.append(label)
+def extract_features(signal):
 
-    return np.array(X), np.array(y)
+    mean = np.mean(signal)
+    std = np.std(signal)
+    max_val = np.max(signal)
+    min_val = np.min(signal)
+    energy = np.sum(signal**2)
 
-if __name__ == "__main__":
-    os.makedirs("data", exist_ok=True)
-    X, y = create_dataset()
-    np.save("data/X.npy", X)
-    np.save("data/y.npy", y)
-    print("Dataset Generated Successfully!")
+    return [mean,std,max_val,min_val,energy]
+
+
+data = []
+
+samples = 1200
+
+for i in range(samples):
+
+    label = np.random.randint(0,4)
+
+    signal = simulate_signal(label)
+
+    features = extract_features(signal)
+
+    features.append(label)
+
+    data.append(features)
+
+
+columns = ["mean","std","max","min","energy","label"]
+
+df = pd.DataFrame(data,columns=columns)
+
+df.to_csv("data/csi_dataset.csv",index=False)
+
+print("CSI dataset generated successfully")

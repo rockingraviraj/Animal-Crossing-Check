@@ -1,7 +1,6 @@
+flask
 numpy
 pandas
 scikit-learn
-tensorflow
-flask
-streamlit
 matplotlib
+joblib
