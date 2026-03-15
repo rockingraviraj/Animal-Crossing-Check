@@ -44,7 +44,7 @@ Real-Time Dashboard
 * Auto-updating detection dashboard
 * Animal alert system with icons
 * Model accuracy visualization
-* Dark mode dashboard
+
 
 ---
 
