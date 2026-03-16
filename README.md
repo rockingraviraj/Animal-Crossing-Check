@@ -191,7 +191,9 @@ These features help classify animal movement into categories such as:
 
 ---
 
-## Author
+## Authors
 
 Ravi Kumar
+Rinku
+Sonu Bhai Patel
 B.Tech Software Engineering Project
