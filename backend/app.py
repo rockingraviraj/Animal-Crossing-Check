@@ -1,6 +1,6 @@
 from flask import Flask, render_template, jsonify
 import matplotlib.pyplot as plt
-from utils.logger import log_detection
+# from utils.logger import log_detection
 
 from utils.signal_simulator import generate_signal
 from utils.preprocessing import normalize_signal
@@ -43,7 +43,7 @@ def run_detection():
         color = "red"
         icon = "🐘"
         
-    log_detection(status)
+    # log_detection(status)
     # graph
     plt.figure(figsize=(8,3))
     plt.plot(signal)
