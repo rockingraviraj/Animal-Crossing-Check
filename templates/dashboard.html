@@ -7,6 +7,8 @@
 
 <link rel="stylesheet" href="/static/style.css">
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
 <body>
@@ -27,9 +29,9 @@
 
 <div class="graph-card">
 
-<h2>CSI Signal Graph</h2>
+<h2>Real-Time CSI Signal</h2>
 
-<img id="graph" src="{{graph}}" width="700">
+<canvas id="signalChart" width="800" height="300"></canvas>
 
 </div>
 
@@ -37,10 +39,33 @@
 
 <script>
 
+let ctx = document.getElementById('signalChart').getContext('2d');
+
+let chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: Array(100).fill(""),
+        datasets: [{
+            label: 'Signal',
+            data: {{ signal | tojson }},
+            borderColor: 'blue',
+            borderWidth: 2,
+            fill: false
+        }]
+    },
+    options: {
+        animation: false,
+        responsive: true,
+        scales: {
+            y: { beginAtZero: true }
+        }
+    }
+});
+
 function updateDetection(){
 
 fetch("/detect")
-.then(response => response.json())
+.then(res => res.json())
 .then(data => {
 
 document.getElementById("status").innerHTML =
@@ -49,13 +74,18 @@ data.icon + " " + data.status;
 document.getElementById("status").className =
 "status " + data.color;
 
-document.getElementById("graph").src =
-data.graph + "?t=" + new Date().getTime();
+// 🔥 FIXED GRAPH UPDATE
+chart.data.labels = Array(data.signal.length).fill("");
+
+chart.data.datasets[0].data = [...data.signal];
+
+chart.update('none');
 
 });
 }
 
-setInterval(updateDetection,3000);
+// 🔥 FAST SMOOTH UPDATE
+setInterval(updateDetection, 1500);
 
 </script>
 
