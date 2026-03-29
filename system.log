@@ -1,0 +1,16 @@
+2026-03-16 15:06:51,190 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-03-16 15:06:51,191 - [33mPress CTRL+C to quit[0m
+2026-03-16 15:06:51,226 -  * Restarting with watchdog (windowsapi)
+2026-03-16 15:06:54,440 -  * Debugger is active!
+2026-03-16 15:06:54,446 -  * Debugger PIN: 284-390-960
+2026-03-16 15:13:23,117 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-03-16 15:13:23,117 - [33mPress CTRL+C to quit[0m
+2026-03-16 15:13:23,154 -  * Restarting with watchdog (windowsapi)
+2026-03-16 15:13:26,669 -  * Debugger is active!
+2026-03-16 15:13:26,691 -  * Debugger PIN: 284-390-960
+2026-03-16 15:19:44,279 -  * Detected change in 'C:\\Users\\Asus\\OneDrive\\Desktop\\CLASSroom\\Animal Crossing Check\\animal csi detection\\backend\\app.py', reloading
+2026-03-16 15:19:45,638 -  * Restarting with watchdog (windowsapi)
+2026-03-16 15:19:52,850 -  * Debugger is active!
+2026-03-16 15:19:52,850 -  * Debugger PIN: 284-390-960
