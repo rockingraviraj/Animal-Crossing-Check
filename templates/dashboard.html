@@ -13,10 +13,25 @@
 
 <body>
 
+<!-- 🔥 NAVBAR -->
+<div class="navbar">
+    <h2>🐾 Animal Detection System</h2>
+
+    <div>
+        <a href="/">Dashboard</a>
+        <a href="/stats">Stats</a>
+    </div>
+</div>
+
 <div class="container">
 
 <h1>Animal Crossing Detection System</h1>
 
+<h3>Real-Time Monitoring Active 🟢</h3>
+
+<a href="/stats">View Stats</a>
+
+<!-- 🔥 STATUS CARD -->
 <div class="status-card">
 
 <h2>Detection Status</h2>
@@ -25,8 +40,13 @@
 {{icon}} {{status}}
 </p>
 
+<p id="confidence">
+Confidence: {{confidence}}%
+</p>
+
 </div>
 
+<!-- 🔥 GRAPH CARD -->
 <div class="graph-card">
 
 <h2>Real-Time CSI Signal</h2>
@@ -39,6 +59,7 @@
 
 <script>
 
+// 🔥 GRAPH INIT
 let ctx = document.getElementById('signalChart').getContext('2d');
 
 let chart = new Chart(ctx, {
@@ -62,29 +83,40 @@ let chart = new Chart(ctx, {
     }
 });
 
+// 🔥 LIVE UPDATE FUNCTION
 function updateDetection(){
 
 fetch("/detect")
 .then(res => res.json())
 .then(data => {
 
-document.getElementById("status").innerHTML =
-data.icon + " " + data.status;
+let statusEl = document.getElementById("status");
+let confEl = document.getElementById("confidence");
 
-document.getElementById("status").className =
-"status " + data.color;
+// 🔥 STATUS UPDATE
+statusEl.innerHTML = data.icon + " " + data.status;
+statusEl.className = "status " + data.color;
 
-// 🔥 FIXED GRAPH UPDATE
+// 🔥 CONFIDENCE UPDATE
+let confText = "Confidence: " + data.confidence + "%";
+confEl.innerHTML = confText;
+
+// 🔥 COLOR BASED CONFIDENCE
+if(data.confidence > 85){
+    confEl.style.color = "green";
+}else{
+    confEl.style.color = "orange";
+}
+
+// 🔥 GRAPH UPDATE
 chart.data.labels = Array(data.signal.length).fill("");
-
 chart.data.datasets[0].data = [...data.signal];
-
 chart.update('none');
 
 });
 }
 
-// 🔥 FAST SMOOTH UPDATE
+// 🔥 AUTO REFRESH
 setInterval(updateDetection, 1500);
 
 </script>

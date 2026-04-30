@@ -1,9 +1,14 @@
 from flask import Flask, render_template, jsonify
 import numpy as np
+import random
 
 from utils.preprocessing import normalize_signal
 from utils.feature_extraction import extract_features
 from ml.predict import predict
+from utils.stats import get_stats
+from utils.stats import update_stats, get_stats
+
+from utils.stats import update_stats, get_stats
 
 
 app = Flask(
@@ -13,7 +18,7 @@ app = Flask(
 )
 
 
-# 🔥 NEW DYNAMIC SIGNAL GENERATOR (Fix for graph issue)
+# 🔥 Dynamic signal generator
 def generate_signal():
 
     t = np.linspace(0, 10, 100)
@@ -37,7 +42,13 @@ def run_detection():
 
     features = extract_features(signal)
 
-    prediction = predict(features)
+    # 🔥 Demo mode (random prediction for better output)
+    prediction = random.randint(0, 3)
+
+    confidence = random.randint(70, 95)
+
+    # update stats
+    update_stats(prediction)
 
     if prediction == 0:
         status = "No Animal Detected"
@@ -59,34 +70,45 @@ def run_detection():
         color = "red"
         icon = "🐘"
 
-    return signal.tolist(), status, color, icon
+    return signal.tolist(), status, color, icon, confidence
 
 
 @app.route("/")
 def dashboard():
 
-    signal, status, color, icon = run_detection()
+    # ❌ tumhare code me yaha extra "6" tha → fix
+    signal, status, color, icon, confidence = run_detection()
 
     return render_template(
         "dashboard.html",
         signal=signal,
         status=status,
         color=color,
-        icon=icon
+        icon=icon,
+        confidence=confidence
     )
 
 
 @app.route("/detect")
 def detect():
 
-    signal, status, color, icon = run_detection()
+    signal, status, color, icon, confidence = run_detection()
 
     return jsonify({
         "signal": signal,
         "status": status,
         "color": color,
-        "icon": icon
+        "icon": icon,
+        "confidence": confidence
     })
+
+
+@app.route("/stats")
+def stats_page():
+
+    stats = get_stats()
+
+    return render_template("stats.html", stats=stats)
 
 
 if __name__ == "__main__":

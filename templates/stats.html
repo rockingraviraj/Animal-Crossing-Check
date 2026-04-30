@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Detection Statistics</title>
+
+<link rel="stylesheet" href="/static/style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<!-- 🔥 NAVBAR -->
+<div class="navbar">
+    <h2>📊 System Statistics</h2>
+
+    <div>
+        <a href="/">Dashboard</a>
+        <a href="/stats">Stats</a>
+    </div>
+</div>
+
+<div class="container">
+
+<h1>Detection Analytics</h1>
+
+<h3>
+Total Detections:
+{{ stats["No Animal"] + stats["Small"] + stats["Medium"] + stats["Large"] }}
+</h3>
+
+<!-- 🔥 CARD -->
+<div class="graph-card">
+
+<canvas id="statsChart" width="400" height="200"></canvas>
+
+</div>
+
+<br>
+
+<a href="/">⬅ Back to Dashboard</a>
+
+</div>
+
+<script>
+
+// 🔥 DATA
+let statsData = {{ stats | tojson }};
+
+let ctx = document.getElementById('statsChart').getContext('2d');
+
+// 🔥 CHART
+new Chart(ctx, {
+    type: 'doughnut',  // better than pie
+    data: {
+        labels: Object.keys(statsData),
+        datasets: [{
+            label: "Detections",
+            data: Object.values(statsData),
+            backgroundColor: [
+                '#2ecc71',
+                '#3498db',
+                '#f39c12',
+                '#e74c3c'
+            ]
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom'
+            }
+        }
+    }
+});
+
+</script>
+
+</body>
+
+</html>
