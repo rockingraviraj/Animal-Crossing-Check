@@ -1,195 +1,206 @@
-# Animal Crossing Detection System Using CSI Data
+# 🐾 Animal Crossing Detection System using CSI Signals
 
-## Overview
-
-This project detects animal crossings on rural roads using simulated Channel State Information (CSI) signals. When an animal moves across a wireless signal path, the signal pattern changes. The system analyzes these changes using signal processing and machine learning to detect possible animal crossings.
-
-The goal of this project is to improve road safety by providing a real-time alert system that warns about animal movement near roads.
+A real-time AI-based monitoring system that detects animal crossings using simulated Channel State Information (CSI) signals. The system analyzes signal distortion patterns and classifies animal movement using machine learning.
 
 ---
 
-## Problem Statement
+## 📌 Project Overview
 
-Animal crossings on rural roads often cause accidents and wildlife fatalities. Traditional camera-based systems may fail in poor lighting or bad weather conditions.
+Road accidents caused by unexpected animal crossings are a major safety concern. Traditional camera-based systems fail in low-light or adverse weather conditions.
 
-This project proposes a non-visual sensing system that uses wireless signal distortions to detect animal movement.
+This project provides a **signal-based detection system** that works using wireless signal distortion (CSI), making it more robust and reliable.
 
 ---
 
-## System Architecture
+## ⚙️ Tech Stack
 
-Signal Simulator
-↓
+* **Backend:** Python, Flask
+* **Machine Learning:** Random Forest (Scikit-learn)
+* **Signal Processing:** NumPy
+* **Frontend:** HTML, CSS, JavaScript
+* **Visualization:** Chart.js
+
+---
+
+## 🚀 Features
+
+✔ Real-time animal detection
+✔ Live CSI signal visualization
+✔ Detection confidence (%)
+✔ Smart alert system (with cooldown + sound)
+✔ Detection history with timestamps
+✔ Statistics dashboard (chart-based)
+✔ Admin panel (all-in-one monitoring)
+✔ CSV report export
+✔ Responsive UI dashboard
+
+---
+
+## 🧠 How It Works
+
+```text
+CSI Signal (Simulated)
+        ↓
 Signal Preprocessing
-↓
+        ↓
 Feature Extraction
-↓
+        ↓
 Machine Learning Model
-↓
-Animal Detection
-↓
-Flask Backend
-↓
-Real-Time Dashboard
-
----
-
-## Key Features
-
-* CSI signal simulation
-* Signal preprocessing and normalization
-* Feature extraction using FFT
-* Machine learning based detection
-* Real-time signal visualization
-* Auto-updating detection dashboard
-* Animal alert system with icons
-* Model accuracy visualization
-
-
----
-
-## Tech Stack
-
-Backend
-
-* Python
-* Flask
-
-Machine Learning
-
-* Scikit-learn
-* Random Forest
-
-Signal Processing
-
-* NumPy
-* FFT
-
-Visualization
-
-* Chart.js
-* HTML
-* CSS
-
----
-
-## Project Structure
-
-```
-animal-csi-detection
-│
-├── backend
-│   └── app.py
-│
-├── alerts
-│   └── alert_system.py
-│
-├── config
-│   └── settings.py
-│
-├── data
-│   └── generate_data.py
-│
-├── ml
-│   ├── train_model.py
-│   └── predict.py
-│
-├── models
-│   └── model.pkl
-│
-├── utils
-│   ├── preprocessing.py
-│   ├── feature_extraction.py
-│   └── signal_simulator.py
-│
-├── templates
-│   └── dashboard.html
-│
-├── static
-│   └── style.css
-│
-└── README.md
+        ↓
+Prediction (Animal Type)
+        ↓
+Dashboard + Alerts + Stats
 ```
 
 ---
 
-## Installation
+## 📊 Detection Categories
 
-Clone the repository
-
-```
-git clone https://github.com/your-username/animal-crossing-detection.git
-```
-
-Navigate to the project folder
-
-```
-cd animal-csi-detection
-```
-
-Install dependencies
-
-```
-pip install -r requirements.txt
-```
-
----
-
-## Running the Project
-
-Start the Flask server
-
-```
-python -m backend.app
-```
-
-Open browser
-
-```
-http://127.0.0.1:5000
-```
-
----
-
-## Machine Learning Model
-
-The system uses a Random Forest classifier trained on simulated CSI signal features.
-
-Extracted features include:
-
-* Mean
-* Standard Deviation
-* Maximum Value
-* Minimum Value
-* Signal Energy
-
-These features help classify animal movement into categories such as:
-
-* No Animal
+* No Animal Detected
 * Small Animal
 * Medium Animal
 * Large Animal
 
 ---
 
-## Expected Outcomes
+## 🖥️ Screenshots
 
-* Improved road safety
-* Reduced wildlife accidents
-* Real-time animal detection system
-* Reliable non-visual sensing approach
+> Add screenshots here for better presentation
+
+* Dashboard
+* Stats Page
+* Admin Panel
+* History Page
+
+---
+
+## 📂 Project Structure
+
+```bash
+animal-csi-detection/
+│
+├── backend/
+│   └── app.py
+│
+├── utils/
+│   ├── preprocessing.py
+│   ├── feature_extraction.py
+│   ├── history.py
+│   └── stats.py
+│
+├── ml/
+│   ├── train_model.py
+│   └── predict.py
+│
+├── templates/
+│   ├── dashboard.html
+│   ├── stats.html
+│   ├── history.html
+│   └── admin.html
+│
+├── static/
+│   ├── style.css
+│   └── alert.mp3
+│
+└── README.md
+```
 
 ---
 
-## Future Improvements
+## 🛠️ Installation & Setup
 
-* Integration with real CSI hardware
-* Deep learning models for improved accuracy
-* IoT based roadside deployment
-* Mobile alert system for drivers
-* Cloud based monitoring dashboard
+```bash
+# Clone the repository
+git clone https://github.com/your-username/animal-csi-detection.git
+
+# Navigate to project folder
+cd animal-csi-detection
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the application
+python -m backend.app
+```
 
 ---
+
+## 🌐 Access the System
+
+Open in browser:
+
+```text
+http://127.0.0.1:5000/
+```
+
+---
+
+## 📊 Available Pages
+
+| Page        | URL      |
+| ----------- | -------- |
+| Dashboard   | /        |
+| Stats       | /stats   |
+| History     | /history |
+| Admin Panel | /admin   |
+
+---
+
+## 📥 Export Feature
+
+Download detection logs as CSV:
+
+```text
+/admin → Download Report
+```
+
+---
+
+## 🎯 Key Highlights
+
+* Real-time monitoring system
+* AI-based prediction with confidence
+* Smart alert mechanism (no spam alerts)
+* Data logging and analytics dashboard
+
+---
+
+## 🔮 Future Scope
+
+* Integration with real CSI hardware (ESP32 / Intel 5300)
+* Mobile notification system
+* IoT-based deployment on highways
+* Deep learning-based classification
+
+---
+
+## 👥 Team Contribution
+
+* **Ravi Raj** → Backend, ML, Dashboard, System Integration
+* **Partner Name** → History, Stats, UI Enhancements, Logging System
+
+---
+
+## 🎤 Viva Explanation (Short)
+
+> This system detects animal crossings by analyzing wireless signal distortions. It processes the signal, extracts features, and uses a machine learning model to classify the type of animal. The system provides real-time alerts, confidence levels, and analytics through a dashboard.
+
+---
+
+## 🏆 Final Output
+
+```text
+AI Monitoring Dashboard + Alerts + Analytics + Report System
+```
+
+---
+
+## ⭐ If you like this project
+
+Give it a ⭐ on GitHub!
+
+---
+
 
 ## Authors
 
