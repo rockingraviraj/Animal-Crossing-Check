@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Admin Panel</title>
+<link rel="stylesheet" href="/static/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <h2>🧠 Admin Monitoring Panel</h2>
+
+    <div>
+        <a href="/">Dashboard</a>
+        <a href="/stats">Stats</a>
+        <a href="/history">History</a>
+    </div>
+</div>
+
+<div class="container">
+    <br>
+<a href="/export-csv">⬇ Download Report (CSV)</a>
+<br><br>
+
+<h2>Live System Status</h2>
+
+<!-- STATUS -->
+<div class="status-card">
+<p id="status">Loading...</p>
+<p id="confidence"></p>
+</div>
+
+<!-- ALERT -->
+<div id="alertBox"></div>
+
+<!-- STATS CHART -->
+<div class="graph-card">
+<h3>Detection Statistics</h3>
+<canvas id="statsChart"></canvas>
+</div>
+
+<!-- HISTORY TABLE -->
+<div class="graph-card">
+<h3>Recent History</h3>
+
+<table id="historyTable">
+<tr>
+<th>Time</th>
+<th>Status</th>
+</tr>
+</table>
+
+</div>
+
+</div>
+
+<script>
+
+// LOAD ALL DATA
+function loadAdmin(){
+
+// 1️⃣ detection
+fetch("/detect")
+.then(res=>res.json())
+.then(data=>{
+
+document.getElementById("status").innerHTML =
+data.icon + " " + data.status;
+
+document.getElementById("confidence").innerHTML =
+"Confidence: " + data.confidence + "%";
+
+// alert
+let alertBox = document.getElementById("alertBox");
+
+if(data.status !== "No Animal Detected"){
+    alertBox.innerHTML = "⚠️ Animal Crossing!";
+    alertBox.style.color = "red";
+}else{
+    alertBox.innerHTML = "✔ Safe";
+    alertBox.style.color = "green";
+}
+
+});
+
+// 2️⃣ stats
+fetch("/stats-data")
+.then(res=>res.json())
+.then(stats=>{
+
+let ctx = document.getElementById("statsChart").getContext("2d");
+
+new Chart(ctx,{
+    type:'doughnut',
+    data:{
+        labels:Object.keys(stats),
+        datasets:[{
+            data:Object.values(stats),
+            backgroundColor:['green','blue','orange','red']
+        }]
+    }
+});
+
+});
+
+// 3️⃣ history
+fetch("/history-data")
+.then(res=>res.json())
+.then(data=>{
+
+let table = document.getElementById("historyTable");
+
+table.innerHTML = `
+<tr>
+<th>Time</th>
+<th>Status</th>
+</tr>
+`;
+
+data.forEach(item=>{
+    table.innerHTML += `
+    <tr>
+    <td>${item.time}</td>
+    <td>${item.status}</td>
+    </tr>
+    `;
+});
+
+});
+
+}
+
+// auto refresh
+setInterval(loadAdmin,2000);
+
+// first load
+loadAdmin();
+
+</script>
+
+</body>
+</html>

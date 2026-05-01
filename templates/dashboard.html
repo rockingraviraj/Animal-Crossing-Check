@@ -13,6 +13,8 @@
 
 <body>
 
+    <audio id="alertSound" src="/static/alert.mp3"></audio>
+
 <!-- 🔥 NAVBAR -->
 <div class="navbar">
     <h2>🐾 Animal Detection System</h2>
@@ -29,7 +31,8 @@
 
 <h3>Real-Time Monitoring Active 🟢</h3>
 
-<a href="/stats">View Stats</a>
+<!-- 🔥 ALERT BOX -->
+<div id="alertBox"></div>
 
 <!-- 🔥 STATUS CARD -->
 <div class="status-card">
@@ -46,7 +49,10 @@ Confidence: {{confidence}}%
 
 </div>
 
-<!-- 🔥 GRAPH CARD -->
+<!-- 🔥 LOADING -->
+<div id="loading">🔄 Detecting...</div>
+
+<!-- 🔥 GRAPH -->
 <div class="graph-card">
 
 <h2>Real-Time CSI Signal</h2>
@@ -54,6 +60,11 @@ Confidence: {{confidence}}%
 <canvas id="signalChart" width="800" height="300"></canvas>
 
 </div>
+
+<br>
+<a href="/stats">📊 View Stats</a>
+<a href="/history">📜 View History</a>
+<a href="/admin">🧠 Admin Panel</a>
 
 </div>
 
@@ -83,32 +94,44 @@ let chart = new Chart(ctx, {
     }
 });
 
-// 🔥 LIVE UPDATE FUNCTION
+// 🔥 UPDATE FUNCTION
 function updateDetection(){
+
+document.getElementById("loading").style.display = "block";
 
 fetch("/detect")
 .then(res => res.json())
 .then(data => {
 
+document.getElementById("loading").style.display = "none";
+
 let statusEl = document.getElementById("status");
 let confEl = document.getElementById("confidence");
+let alertBox = document.getElementById("alertBox");
 
-// 🔥 STATUS UPDATE
+// STATUS
 statusEl.innerHTML = data.icon + " " + data.status;
 statusEl.className = "status " + data.color;
 
-// 🔥 CONFIDENCE UPDATE
-let confText = "Confidence: " + data.confidence + "%";
-confEl.innerHTML = confText;
+// CONFIDENCE
+confEl.innerHTML = "Confidence: " + data.confidence + "%";
 
-// 🔥 COLOR BASED CONFIDENCE
 if(data.confidence > 85){
     confEl.style.color = "green";
 }else{
     confEl.style.color = "orange";
 }
 
-// 🔥 GRAPH UPDATE
+// ALERT SYSTEM
+if(data.status !== "No Animal Detected"){
+    alertBox.innerHTML = "⚠️ WARNING: Animal Crossing Detected!";
+    alertBox.style.color = "red";
+}else{
+    alertBox.innerHTML = "✔ Safe Zone";
+    alertBox.style.color = "green";
+}
+
+// GRAPH UPDATE
 chart.data.labels = Array(data.signal.length).fill("");
 chart.data.datasets[0].data = [...data.signal];
 chart.update('none');
@@ -116,7 +139,7 @@ chart.update('none');
 });
 }
 
-// 🔥 AUTO REFRESH
+// AUTO UPDATE
 setInterval(updateDetection, 1500);
 
 </script>

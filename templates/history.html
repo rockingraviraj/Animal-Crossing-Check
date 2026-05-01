@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Detection History</title>
+
+<link rel="stylesheet" href="/static/style.css">
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <h2>📜 Detection History</h2>
+
+    <div>
+        <a href="/">Dashboard</a>
+        <a href="/stats">Stats</a>
+    </div>
+</div>
+
+<div class="container">
+
+<h1>Recent Detections</h1>
+
+<!-- TABLE -->
+<table id="historyTable" border="1" cellpadding="10" style="margin:auto; background:white; border-radius:10px;">
+
+<tr>
+<th>Time</th>
+<th>Status</th>
+</tr>
+
+</table>
+
+</div>
+
+<script>
+
+function loadHistory(){
+
+fetch("/history-data")
+.then(res => res.json())
+.then(data => {
+
+let table = document.getElementById("historyTable");
+
+// clear old rows except header
+table.innerHTML = `
+<tr>
+<th>Time</th>
+<th>Status</th>
+</tr>
+`;
+
+data.forEach(item => {
+
+let row = `<tr>
+<td>${item.time}</td>
+<td>${item.status}</td>
+</tr>`;
+
+table.innerHTML += row;
+
+});
+
+});
+}
+
+// auto refresh every 2 sec
+setInterval(loadHistory, 2000);
+
+// first load
+loadHistory();
+
+</script>
+
+</body>
+
+</html>
